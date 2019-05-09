@@ -1,5 +1,7 @@
 package com.muszkin.bmianalyzer;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,15 +26,17 @@ public class MainActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
         final EditText height = findViewById(R.id.height);
         final EditText weight = findViewById(R.id.weight);
-        SeekBar bmiSeekBar = findViewById(R.id.bmiSeekbar);
+        final SeekBar bmiSeekBar = findViewById(R.id.bmiSeekbar);
         final TextView bmi = findViewById(R.id.bmi);
         Button calculate = findViewById(R.id.calculateButton);
 
         calculate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 if (height.getText().toString().trim().length() > 0 && weight.getText().toString().trim().length() > 0) {
                     bmi.setText(String.valueOf(BmiCalculator.calculateBmi(Float.valueOf(height.getText().toString()),Float.valueOf(weight.getText().toString()))));
+                    bmiSeekBar.setProgress((int)BmiCalculator.calculateBmi(Float.valueOf(height.getText().toString()),Float.valueOf(weight.getText().toString())),true);
                 }
             }
         });
